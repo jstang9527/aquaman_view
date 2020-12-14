@@ -5,4 +5,4 @@
 nodejs
 
 ## Function
-详细内容详看后端程序README.md
+详细内容详看后端程序README.md (https://github.com/jstang9527/aquaman)
