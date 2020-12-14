@@ -1,0 +1,239 @@
+import Vue from 'vue'
+import Router from 'vue-router'
+
+Vue.use(Router)
+
+/* Layout */
+import Layout from '@/layout'
+/**
+ * Note: sub-menu only appear when route children.length >= 1
+ * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
+ *
+ * hidden: true                   if set true, item will not show in the sidebar(default is false)
+ * alwaysShow: true               if set true, will always show the root menu
+ *                                if not set alwaysShow, when item has more than one children route,
+ *                                it will becomes nested mode, otherwise not show the root menu
+ * redirect: noRedirect           if set noRedirect will no redirect in the breadcrumb
+ * name:'router-name'             the name is used by <keep-alive> (must set!!!)
+ * meta : {
+    roles: ['admin','editor']    control the page roles (you can set multiple roles)
+    title: 'title'               the name show in sidebar and breadcrumb (recommend set)
+    icon: 'svg-name'/'el-icon-x' the icon show in the sidebar
+    noCache: true                if set true, the page will no be cached(default is false)
+    affix: true                  if set true, the tag will affix in the tags-view
+    breadcrumb: false            if set false, the item will hidden in breadcrumb(default is true)
+    activeMenu: '/example/list'  if set path, the sidebar will highlight the path you set
+  }
+ */
+
+/**
+ * constantRoutes
+ * a base page that does not have permission requirements
+ * all roles can be accessed
+ */
+export const constantRoutes = [
+  {
+    path: '/redirect',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: '/redirect/:path(.*)',
+        component: () => import('@/views/redirect/index')
+      }
+    ]
+  },
+  {
+    path: '/login',
+    component: () => import('@/views/login/index'),
+    hidden: true
+  },
+  {
+    path: '/auth-redirect',
+    component: () => import('@/views/login/auth-redirect'),
+    hidden: true
+  },
+  {
+    path: '/404',
+    component: () => import('@/views/error-page/404'),
+    hidden: true
+  },
+  {
+    path: '/401',
+    component: () => import('@/views/error-page/401'),
+    hidden: true
+  },
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/dashboard',
+    children: [
+      {
+        path: 'dashboard',
+        component: () => import('@/views/dashboard/index'),
+        name: 'Dashboard',
+        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+      }
+    ]
+  }, {
+    path: '/service',
+    name: "微服务",
+    component: Layout,
+    meta: { title: '微 服 务', icon: 'component', affix: false },
+    redirect: '/service/list',
+    children: [
+      {
+        path: 'statistics',
+        // component: () => import('@/views/dashboard/index'),
+        component: () => import('@/views/error-page/401'),
+        name: '服务大盘',
+        meta: { title: '指数总览', affix: false },
+        // hidden: true
+      },
+      {
+        path: 'list',
+        // component: () => import('@/views/service/list'),
+        component: () => import('@/views/error-page/401'),
+        name: '服务列表',
+        meta: { title: '服务列表', affix: false }
+      },
+      {
+        path: 'member',
+        // component: () => import('@/views/dashboard/index'),
+        component: () => import('@/views/error-page/401'),
+        name: '项目管理',
+        meta: { title: '项目管理', affix: false }
+      },
+      {
+        path: 'service_create_http',
+        component: () => import('@/views/service/http'),
+        name: '创建服务',
+        meta: { title: '创建服务', icon: 'component', affix: false },
+        hidden: true
+      },
+      {
+        path: 'service_edit_http',
+        component: () => import('@/views/service/http'),
+        name: '修改服务',
+        meta: { title: '修改服务', icon: 'component', affix: false },
+        hidden: true
+      }
+    ]
+  }, {
+    path: '/nodes',
+    component: Layout,
+    redirect: '/nodes/list',
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/nodes/list'),
+        name: '节点列表',
+        meta: { title: '节点列表', icon: 'list', affix: false }
+      },
+      {
+        path: 'domain_add',
+        component: () => import('@/views/nodes/domain'),
+        name: '添加域',
+        meta: { title: '添加域', icon: 'component', affix: false },
+        hidden: true
+      }
+    ]
+  }, {
+    path: '/chain',
+    name: "Web自动化测试",
+    component: Layout,
+    meta: { title: 'Web自动化测试', icon: 'international', affix: false },
+    redirect: '/chain/list',
+    children: [
+      {
+        path: 'screenshot_list',
+        component: () => import('@/views/chain/screanshot'),
+        name: '测试截图',
+        meta: { title: '测试截图', affix: false }
+      },
+      {
+        path: 'block_list',
+        component: () => import('@/views/chain/block_list'),
+        name: '组件工厂',
+        meta: { title: '组件工厂', affix: false }
+      },
+      {
+        path: 'block',
+        component: () => import('@/views/chain/block'),
+        name: '添加动作组件',
+        meta: { title: '添加动作组件', affix: false },
+        hidden: true
+      },
+      {
+        path: 'update_block',
+        component: () => import('@/views/chain/block'),
+        name: '更新组件',
+        meta: { title: '更新组件', affix: false },
+        hidden: true
+      },
+      {
+        path: 'build_stream',
+        component: () => import('@/views/chain/build_stream'),
+        name: '构建流水',
+        meta: { title: '构建流水', affix: false },
+        hidden: true
+      },
+      {
+        path: 'stream_list',
+        component: () => import('@/views/chain/stream_list'),
+        name: '组装中心',
+        meta: { title: '组装中心', affix: false }
+      },
+    ]
+  }, {
+    path: '/interface',
+    name: "接口测试",
+    component: Layout,
+    meta: { title: '接口测试', icon: 'example', affix: false },
+    redirect: '/chain/interface',
+    children: [
+      {
+        path: 'report',
+        component: () => import('@/views/interface/index'),
+        name: '测试报告',
+        meta: { title: '测试报告', affix: false }
+      },
+      {
+        path: 'detail',
+        component: () => import('@/views/interface/detail'),
+        name: '详细报告',
+        meta: { title: '详细报告', affix: false }
+      },
+      {
+        path: 'jmx',
+        // component: () => import('@/views/chain/block_list'),
+        component: () => import('@/views/error-page/404'),
+        name: 'Jmx脚本',
+        meta: { title: 'Jmx脚本', affix: false }
+      }
+    ]
+  }
+]
+
+/**
+ * asyncRoutes
+ * the routes that need to be dynamically loaded based on user roles
+ */
+export const asyncRoutes = [
+  // componentsRouter
+]
+const createRouter = () => new Router({
+  // mode: 'history', // require service support
+  scrollBehavior: () => ({ y: 0 }),
+  routes: constantRoutes
+})
+
+const router = createRouter()
+
+// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
+export function resetRouter() {
+  const newRouter = createRouter()
+  router.matcher = newRouter.matcher // reset router
+}
+
+export default router

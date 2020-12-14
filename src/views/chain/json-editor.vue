@@ -1,0 +1,38 @@
+<template>
+  <div class="components-container">
+    <aside>
+      <!-- Json-Editor is base on
+      <a href="https://github.com/codemirror/CodeMirror" target="_blank">CodeMirrorr</a>. Lint
+      base on
+      <a href="https://github.com/codemirror/CodeMirror/blob/master/addon/lint/json-lint.js" target="_blank">json-lint</a>.-->
+      ACS行为链Demo
+    </aside>
+    <div class="editor-container">
+      <json-editor ref="jsonEditor" v-model="value" />
+    </div>
+  </div>
+</template>
+
+<script>
+import JsonEditor from "@/components/JsonEditor";
+
+const jsonData = `[{"funcName":"Login ACS","priority":3,"expect":"","actionChain":[{"actionName":"openLoginPage","eleType":"entry","url":"/#/login"},{"actionName":"inputUserName","eleType":"input","id":"userAccount","value":"adminantiy"},{"actionName":"inputPassword","eleType":"input","id":"userPassword","value":"antiylabsnode)9*"},{"actionName":"verificationCode","eleType":"input","id":"verificationCode","value":"3167"},{"actionName":"loginOperation","eleType":"click","xpath":"//*[@id='root']/div/div[2]/div[2]/form/div[4]/div/div/span/button"}]},{"funcName":"Create Honeypot","priority":3,"expect":"","actionChain":[{"actionName":"openHomePage","eleType":"entry","url":"/#/overview"},{"actionName":"clickHoneypotMgr","eleType":"click","xpath":"//*[@id='root']/div/nav/ul/li[7]/div[1]/a"},{"actionName":"clickVirtualHoneypotMgr","eleType":"click","xpath":"//*[@id='/manager$Menu']/li[2]/a"},{"actionName":"clickCreateHoneypot","eleType":"click","xpath":"//*[@id='root']/div/div/div[2]/div/div[3]/div[1]/div[2]/div[2]/div[1]/button"},{"actionName":"inputHoneypotName","eleType":"input","id":"honeypotName","value":"win7"},{"actionName":"clickPerceptionIPCombobox","eleType":"click","xpath":"/html/body/div[9]/div/div[2]/div/div[2]/div[2]/div/form/div[3]/div[2]/div/span/div/button"},{"actionName":"selectPerceptionIP","eleType":"click","xpath":"/html/body/div[10]/div/div/div/div/div/div/label/span[1]"},{"actionName":"selectServerSupport","eleType":"click","xpath":"//*[@id='services']/div[4]/label/span[1]"},{"actionName":"clickCreateSubmit","eleType":"click","xpath":"/html/body/div[9]/div/div[2]/div/div[2]/div[2]/div/form/div[9]/div/div/span/button"},{"actionName":"monitorHoneypotStatus","eleType":"monitor","xpath":"//*[@id='root']/div/div/div[2]/div/div[3]/div[1]/div[2]/div[2]/div[2]/div[2]/div/div/div/div/div/div/div/table/tbody/tr/td[10]/div/span","value":"正在运行","duration":600}]},{"funcName":"Shutdown Honeypot","priority":3,"expect":"","actionChain":[{"actionName":"openHomePage","eleType":"entry","url":"/#/overview"},{"actionName":"clickHoneypotMgr","eleType":"click","xpath":"//*[@id='root']/div/nav/ul/li[7]/div[1]/a"},{"actionName":"clickVirtualHoneypotMgr","eleType":"click","xpath":"//*[@id='/manager$Menu']/li[2]/a"},{"actionName":"clickCheckbox","eleType":"click","xpath":"//*[@id='root']/div/div/div[2]/div/div[3]/div[1]/div[2]/div[2]/div[2]/div[2]/div/div/div/div/div/div/div/table/tbody/tr/td[11]/div/button"},{"actionName":"clickShutdonwButtom","eleType":"click","xpath":"/html/body/div[9]/div/div/ul/li[3]"},{"actionName":"ensureShutdonwHoneypot","eleType":"click","xpath":"/html/body/div[11]/div/div[2]/div/div[2]/div/div/div[2]/button[2]"},{"actionName":"monitorHoneypotStatus","eleType":"monitor","xpath":"//*[@id='root']/div/div/div[2]/div/div[3]/div[1]/div[2]/div[2]/div[2]/div[2]/div/div/div/div/div/div/div/table/tbody/tr/td[10]/div/span","value":"已关机","duration":180}]},{"funcName":"Run Honeypot","priority":3,"expect":"","actionChain":[{"actionName":"openHomePage","eleType":"entry","url":"/#/overview"},{"actionName":"clickHoneypotMgr","eleType":"click","xpath":"//*[@id='root']/div/nav/ul/li[7]/div[1]/a"},{"actionName":"clickVirtualHoneypotMgr","eleType":"click","xpath":"//*[@id='/manager$Menu']/li[2]/a"},{"actionName":"clickCheckbox","eleType":"click","xpath":"//*[@id='root']/div/div/div[2]/div/div[3]/div[1]/div[2]/div[2]/div[2]/div[2]/div/div/div/div/div/div/div/table/tbody/tr/td[11]/div/button"},{"actionName":"clickRunButtom","eleType":"click","xpath":"/html/body/div[9]/div/div/ul/li[2]"},{"actionName":"monitorHoneypotStatus","eleType":"monitor","xpath":"//*[@id='root']/div/div/div[2]/div/div[3]/div[1]/div[2]/div[2]/div[2]/div[2]/div/div/div/div/div/div/div/table/tbody/tr/td[10]/div/span","value":"正在运行","duration":180}]},{"funcName":"Recover Honeypot","priority":3,"expect":"","actionChain":[{"actionName":"openHomePage","eleType":"entry","url":"/#/overview"},{"actionName":"clickHoneypotMgr","eleType":"click","xpath":"//*[@id='root']/div/nav/ul/li[7]/div[1]/a"},{"actionName":"clickVirtualHoneypotMgr","eleType":"click","xpath":"//*[@id='/manager$Menu']/li[2]/a"},{"actionName":"clickCheckbox","eleType":"click","xpath":"//*[@id='root']/div/div/div[2]/div/div[3]/div[1]/div[2]/div[2]/div[2]/div[2]/div/div/div/div/div/div/div/table/tbody/tr/td[11]/div/button"},{"actionName":"clickRecoverButtom","eleType":"click","xpath":"/html/body/div[9]/div/div/ul/li[5]"},{"actionName":"ensureRecoverHoneypot","eleType":"click","xpath":"/html/body/div[11]/div/div[2]/div/div[2]/div/div/div[2]/button[2]"},{"actionName":"monitorAlertBoxVarnished","eleType":"monitor","xpath":"/html/body/div[13]/div/div[2]/div/div[2]/div/div/div[1]/span/div","duration":180,"allowErr":true},{"actionName":"monitorHoneypotStatus","eleType":"monitor","xpath":"//*[@id='root']/div/div/div[2]/div/div[3]/div[1]/div[2]/div[2]/div[2]/div[2]/div/div/div/div/div/div/div/table/tbody/tr/td[10]/div/span","value":"正在运行","duration":180}]},{"funcName":"Delete Honeypot","priority":3,"expect":"","actionChain":[{"actionName":"openHomePage","eleType":"entry","url":"/#/overview"},{"actionName":"clickHoneypotMgr","eleType":"click","xpath":"//*[@id='root']/div/nav/ul/li[7]/div[1]/a"},{"actionName":"clickVirtualHoneypotMgr","eleType":"click","xpath":"//*[@id='/manager$Menu']/li[2]/a"},{"actionName":"clickCheckbox","eleType":"click","xpath":"//*[@id='root']/div/div/div[2]/div/div[3]/div[1]/div[2]/div[2]/div[2]/div[2]/div/div/div/div/div/div/div/table/tbody/tr/td[11]/div/button"},{"actionName":"clickDelButtom","eleType":"click","xpath":"/html/body/div[9]/div/div/ul/li[4]"},{"actionName":"ensureDelHoneypot","eleType":"click","xpath":"/html/body/div[11]/div/div[2]/div/div[2]/div/div/div[2]/button[2]"},{"actionName":"monitorHoneypotStatus","eleType":"monitor","xpath":"//*[@id='root']/div/div/div[2]/div/div[3]/div[1]/div[2]/div[2]/div[2]/div[2]/div/div/div/div/div/div/div/table/tbody/tr/td[10]/div/span","duration":180,"allowErr":true}]},{"funcName":"Parse EventAnalyze data","priority":2,"expect":"","actionChain":[{"actionName":"openHomePage","eleType":"entry","url":"/#/overview"},{"actionName":"clickThreatAnalyze","eleType":"click","xpath":"//*[@id='root']/div/nav/ul/li[2]/div/a"},{"actionName":"getEventAnalyzeData","eleType":"parse","xpath":"//*[@id='root']/div/div/div[2]/div[2]/div[2]/div/div[2]/div/div/div/div/div/div/div/table/tbody"}]},{"funcName":"Parse attackChainAnalyze data","priority":1,"expect":"","actionChain":[{"actionName":"openHomePage","eleType":"entry","url":"/#/overview"},{"actionName":"clickThreatAnalyze","eleType":"click","xpath":"//*[@id='root']/div/nav/ul/li[2]/div/a"},{"actionName":"clickAttackChainAnalyze","eleType":"click","xpath":"//*[@id='/analyse$Menu']/li[2]/a"},{"actionName":"getAttackChainAnalyzeData","eleType":"parse","xpath":"//*[@id='root']/div/div/div[2]/div[2]/div[2]/div/div[2]/div/div/div/div/div/div/div/table/tbody"}]}]`;
+
+export default {
+  name: "JsonEditorDemo",
+  components: { JsonEditor },
+  data() {
+    return {
+      value: JSON.parse(jsonData),
+    };
+  },
+};
+</script>
+
+<style scoped>
+.editor-container {
+  position: relative;
+  height: 100%;
+}
+</style>
+
